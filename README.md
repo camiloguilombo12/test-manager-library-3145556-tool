@@ -48,3 +48,17 @@ No hay prórroga: suban avances parciales con commits pequeños durante la prueb
 | [`test-manager-library-3145556-page`](https://github.com/code-sena/test-manager-library-3145556-page) | Sitio público estático de presentación |
 | [`test-manager-library-3145556-infra`](https://github.com/code-sena/test-manager-library-3145556-infra) | Contenedores, red, volúmenes y motor de base de datos vacío |
 | [`test-manager-library-3145556-tool`](https://github.com/code-sena/test-manager-library-3145556-tool) | Utilidades: sembrador de datos de demostración |
+
+## Estado
+
+| Tarea | Estado |
+|---|---|
+| T-21 · Sembrador de demostración por la API (≥ 40 libros, 10 socios, 15 préstamos, 3 vencidos) | Pendiente |
+
+Base acordada para construirlo (ver `spec-review.md` en el repositorio `docs`):
+
+- Script de Node que inicia sesión como admin con `ADMIN_USERNAME` / `ADMIN_PASSWORD` y usa solo la API (`API_URL`). Nunca SQL.
+- Los préstamos vencidos se crean con la API arrancada con `CLOCK_OFFSET_DAYS=-20` (spec-review E-02). Después se reinicia
+  la API con `0` y se crea el resto.
+- Los socios con préstamos vencidos se eligen aparte, porque ya no pueden pedir otro libro (CA-06.5).
+- Evidencia esperada: tras correrlo, `GET /loans/overdue` devuelve 3 líneas y el reporte de más prestados tiene filas.
